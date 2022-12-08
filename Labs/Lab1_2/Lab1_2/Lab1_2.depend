@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1584205420 source:c:\users\ccrei\documents\cosc 120\labs\lab1_2\lab1_2\main.cpp
+	<iostream>
+
+1663259122 source:c:\users\ccrei\documents\cosc 120\labs\lab1_2\lab1_2\rectangle.cpp
+	<iostream>
+
+1663261132 source:c:\users\ccrei\documents\cosc 120\labs\lab1_2\lab1_2\milespergallon.cpp
+	<iostream>
+
+1663261575 source:c:\users\ccrei\documents\cosc 120\labs\lab1_2\lab1_2\ctoftemp.cpp
+	<iostream>
+

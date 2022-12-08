@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1662653503 source:c:\users\ccrei\documents\cosc 120\labs\lab1\lab 1\firstprog.cpp
+	<iostream>
+
+1662654754 source:c:\users\ccrei\documents\cosc 120\labs\lab1\lab 1\runprob.cpp
+	<iostream>
+
+1662655003 source:c:\users\ccrei\documents\cosc 120\labs\lab1\lab 1\logicprob.cpp
+	<iostream>
+
+1662656165 source:c:\users\ccrei\documents\cosc 120\labs\lab1\lab 1\kilotomiles.cpp
+	<iostream>
+

@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1664468084 source:c:\users\ccrei\documents\cosc 120\labs\lab 3\lab 3\bill.cpp
+	<iostream>
+	<iomanip>
+
+1664470466 source:c:\users\ccrei\documents\cosc 120\labs\lab 3\lab 3\main.cpp
+	<iostream>
+	<cmath>
+
+1664469628 source:c:\users\ccrei\documents\cosc 120\labs\lab 3\lab 3\tabledata.cpp
+	<iostream>
+	<iomanip>
+
+1664665813 source:c:\users\ccrei\documents\cosc 120\labs\lab 3\lab 3\righttrig.cpp
+	<iostream>
+	<cmath>
+

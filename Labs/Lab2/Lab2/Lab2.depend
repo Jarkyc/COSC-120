@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1663864310 source:c:\users\ccrei\documents\cosc 120\labs\lab2\lab2\name.cpp
+	<iostream>
+	<iomanip>
+
