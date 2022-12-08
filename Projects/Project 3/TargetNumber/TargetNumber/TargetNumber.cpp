@@ -10,7 +10,8 @@ using namespace std;
 int randomNum();
 int* initArray(int);
 int linearSearch(int*, int, int);
-int* mutatedArray(int*, int, bool);
+int* addTo(int*, int, int &);
+int* removeFrom(int*, int, int&);
 bool targetFound(int*, int, int);
 
 int main()
@@ -34,7 +35,6 @@ int main()
             if (target >= 3 && target <= 27) inputPhase = false;
         }
 
-        len = (sizeof(&array)) / sizeof(int);
         cout << len << endl;
         if (len >= 3 && targetFound(array, len, target)) return 0;
         // check 3 numbers
@@ -49,14 +49,18 @@ int main()
         //generate a new number
         int newRand = randomNum();
         // new number = num in array, delete. repeat until no ==.
-        int searchResult = linearSearch(array, sizeof(array) / sizeof(int), newRand);
+        int searchResult = linearSearch(array, len, newRand);
 
         while (searchResult != -1) {
-            //TODO: Change main game loop to pass to functions by reference?
-            array = mutatedArray(array, searchResult, false);
+            array = removeFrom(array, searchResult, len);
             newRand = randomNum();
-            searchResult = linearSearch(array, sizeof(array) / sizeof(int), newRand);
+            searchResult = linearSearch(array, len, newRand);
+            cout << "Search Result: " << searchResult << endl;
         }
+
+        array = addTo(array, newRand, len);
+        // if newNumber exists, remove from array.
+        // else, insert into array.
 
 
         inputPhase = true;
@@ -97,32 +101,6 @@ int linearSearch(int* array, int len, int target)
     return -1;
 }
 
-int* mutatedArray(int* array, int number, bool type) {
-    // type == true  : add to the array.
-    // type == false : remove the number from the array.
-    int arrayLength = sizeof(array) / sizeof(int);
-    cout << "Size during mutation: " << arrayLength << endl;
-    int* newArray;
-    if (type) 
-    {
-        newArray = new int[arrayLength + 1];
-
-        for (int i = 0; i < arrayLength; i++) {
-            newArray[i] = array[i];
-        }
-        newArray[arrayLength + 1] = number;
-    }
-    else 
-    {
-        newArray = new int[arrayLength - 1];
-
-        for (int i = 0; i < arrayLength; i++) {
-            if (array[i] == number) continue;
-            else newArray[i] = array[i];
-        }
-    }
-    return newArray;
-}
 
 bool targetFound(int* arr, int size, int target) {
     for (int i = 0; i < size - 2; i++)
@@ -141,4 +119,38 @@ bool targetFound(int* arr, int size, int target) {
         }
     }
     return false;
+}
+
+int* addTo(int* array, int num, int &len) {
+    cout << "Adding " << num << endl;
+    int* newArray = new int[len + 1];
+    for (int i = 0; i < len; i++) {
+        newArray[i] = array[i];
+    }
+    newArray[len] = num;
+
+    len++;
+
+    delete[] array;
+    array = nullptr;
+
+    return newArray;
+}
+
+int* removeFrom(int* array, int num, int& len) {
+    cout << "Removing: " << num << endl;
+    int* newArray = new int[len - 1];
+    int i = 0;
+    for (i; i < len; i++) {
+        if (array[i] == num) break;
+        newArray[i] = array[i];
+    }
+
+    i = i + 1;
+    for (i; i < len; i++) {
+        newArray[i - 1] = array[i];
+    }
+    len--;
+
+    return newArray;
 }
