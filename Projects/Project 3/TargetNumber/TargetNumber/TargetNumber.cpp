@@ -26,6 +26,9 @@ int main()
 
     while (gameLoop) {
 
+        cout << "******************************************************" << endl;
+        cout << "Game Iteration: " << iteration << endl;
+        cout << "Numebr List : ";
         for (int i = 0; i < len; i++) {
             cout << array[i] << " ";
         }
@@ -35,14 +38,22 @@ int main()
             cout << "Enter a target number between 3 and 27: ";
             cin >> target;
 
-            if (target >= 3 && target <= 27) inputPhase = false;
+            if (cin.fail()) { 
+                cin.clear();
+                cin.ignore(256, '\n');
+                continue; 
+            }
+
+            if ((target >= 3 && target <= 27)) inputPhase = false;
         }
 
         cout << len << endl;
+
+        //If a the 3 numbers are found, exit
         if (len >= 3 && targetFound(array, len, target)) return 0;
-        // check 3 numbers
-        // if ==, return end of game.
-        // else, continue out of if statement
+
+
+        //3 numbers aren't found, continue game
         cout << "There are no numbers in ";
         for (int i = 0; i < len; i++) {
             cout << array[i] << " ";
@@ -51,35 +62,57 @@ int main()
 
         //generate a new number
         int newRand = randomNum();
-        // new number = num in array, delete. repeat until no ==.
+        cout << "New Number Generated: " << newRand << endl;
+
+        //Search if the new number exists in the array already
         int searchResult = linearSearch(array, len, newRand);
 
-        while (searchResult != -1) {
+        while (searchResult != -1){
+            //the function returns -1 if the number doesn't exist. Otherwise it returns said number.
+            //Therefore if it returns a number not equal to -1, we need to remove it and generate a new number
+            cout << "Number is in array. Removing." << endl;
             array = removeFrom(array, searchResult, len);
             newRand = randomNum();
+            cout << "Generating new number: " << newRand << endl;
             searchResult = linearSearch(array, len, newRand);
-            cout << "Search Result: " << searchResult << endl;
         }
+
+        cout << "Number is not in the array" << endl;
 
         bool even = isEven(newRand);
+       
+        if (even) {
+            cout << "Number is even, sorting ascending" << endl;
+            sortAscending(array, len);
+        }
+        else { 
+            cout << "Number is odd, sorting descending" << endl;
+            sortDescending(array, len);
+        }
+        
+        cout << "Number list: ";
+        for (int i = 0; i < len; i++) {
+            cout << array[i] << " ";
+        }
+        cout << endl;
 
-        if (even) sortAscending(array, len);
-        else sortDescending(array, len);
-
-
+        //Insert the number to the array
         array = addTo(array, newRand, len, even);
 
-        cout << "SORTED: " << endl; 
+        //Print out the array with the insertion
+        cout << "Number list: ";
         for (int i = 0; i < len; i++) {
-            cout << array[i];
+            cout << array[i] << " ";
         }
-
+        cout << endl;
+        
+        //We keep goin
         inputPhase = true;
         iteration++;
     }
 
 }
-
+    
 int randomNum()
 {
     return rand() % 11;
@@ -151,15 +184,17 @@ int* addTo(int* array, int num, int &len, bool type) {
 
         delete[] array;
         array = nullptr;
+        cout << "Adding to the right" << endl;
     } else {
         newArray[0] = num;
-        for (int i = 1; i < len; i++) {
-            newArray[i] = array[i];
+        for (int i = 0; i < len; i++) {
+            newArray[i + 1] = array[i];
         }
         len++;
 
         delete[] array;
         array = nullptr;
+        cout << "Adding to the left" << endl;
     }
     return newArray;
 }
@@ -184,7 +219,7 @@ int* removeFrom(int* array, int num, int& len) {
 
 void sortAscending(int* array, int &len) {
     bool flag;
-
+    
     do {
         flag = false;
         for (int i = 0; i < len - 1; i++) {
@@ -197,12 +232,11 @@ void sortAscending(int* array, int &len) {
         }
 
     } while (flag);
-
 }
 
 void sortDescending(int* array, int &len) {
     bool flag;
-
+    
     do {
         flag = false;
         for (int i = 0; i < len - 1; i++) {
