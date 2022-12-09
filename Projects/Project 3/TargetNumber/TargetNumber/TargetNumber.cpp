@@ -10,9 +10,12 @@ using namespace std;
 int randomNum();
 int* initArray(int);
 int linearSearch(int*, int, int);
-int* addTo(int*, int, int &);
+int* addTo(int*, int, int&, bool);
 int* removeFrom(int*, int, int&);
 bool targetFound(int*, int, int);
+void sortAscending(int*, int&);
+void sortDescending(int*, int&);
+bool isEven(int);
 
 int main()
 {
@@ -58,10 +61,18 @@ int main()
             cout << "Search Result: " << searchResult << endl;
         }
 
-        array = addTo(array, newRand, len);
-        // if newNumber exists, remove from array.
-        // else, insert into array.
+        bool even = isEven(newRand);
 
+        if (even) sortAscending(array, len);
+        else sortDescending(array, len);
+
+
+        array = addTo(array, newRand, len, even);
+
+        cout << "SORTED: " << endl; 
+        for (int i = 0; i < len; i++) {
+            cout << array[i];
+        }
 
         inputPhase = true;
         iteration++;
@@ -121,19 +132,35 @@ bool targetFound(int* arr, int size, int target) {
     return false;
 }
 
-int* addTo(int* array, int num, int &len) {
+int* addTo(int* array, int num, int &len, bool type) {
+    //Type is corresponding to the position the item is inserted
+    //True  : Right
+    //False : Left
+
     cout << "Adding " << num << endl;
     int* newArray = new int[len + 1];
-    for (int i = 0; i < len; i++) {
-        newArray[i] = array[i];
+
+    if (type)
+    {
+        for (int i = 0; i < len; i++) {
+            newArray[i] = array[i];
+        }
+        newArray[len] = num;
+
+        len++;
+
+        delete[] array;
+        array = nullptr;
+    } else {
+        newArray[0] = num;
+        for (int i = 1; i < len; i++) {
+            newArray[i] = array[i];
+        }
+        len++;
+
+        delete[] array;
+        array = nullptr;
     }
-    newArray[len] = num;
-
-    len++;
-
-    delete[] array;
-    array = nullptr;
-
     return newArray;
 }
 
@@ -153,4 +180,43 @@ int* removeFrom(int* array, int num, int& len) {
     len--;
 
     return newArray;
+}
+
+void sortAscending(int* array, int &len) {
+    bool flag;
+
+    do {
+        flag = false;
+        for (int i = 0; i < len - 1; i++) {
+            if (array[i] > array[i + 1]) {
+                int temp = array[i + 1];
+                array[i + 1] = array[i];
+                array[i] = temp;
+                flag = true;
+            }
+        }
+
+    } while (flag);
+
+}
+
+void sortDescending(int* array, int &len) {
+    bool flag;
+
+    do {
+        flag = false;
+        for (int i = 0; i < len - 1; i++) {
+            if (array[i] < array[i + 1]) {
+                int temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+                flag = true;
+            }
+        }
+
+    } while (flag);
+}
+
+bool isEven(int n) {
+    return (n % 2 == 0);
 }
